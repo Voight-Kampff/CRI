@@ -6,6 +6,9 @@ class StaticPagesController < ApplicationController
     end
   end
 
+  def data
+  end
+  
   def help
   end
 
