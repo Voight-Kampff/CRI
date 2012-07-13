@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
   has_many :microposts, dependent: :destroy
+  has_many :inputs
 
   before_save { |user| user.email = user.email.downcase }
   before_save :create_remember_token 
@@ -16,6 +17,10 @@ class User < ActiveRecord::Base
   def feed
     # This is only a proto-feed.
     Micropost.where("user_id = ?", id)
+  end
+
+  def input_feed
+    Input.where("user_id = ?", id) && Input.where("admin = ?", true)
   end
 
   private

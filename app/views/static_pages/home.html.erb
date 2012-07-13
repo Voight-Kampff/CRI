@@ -9,7 +9,7 @@
       </section>
     </aside>
     <div class="span8">
-      <h3>Micropost Feed</h3>
+      <h3>Notes</h3>
       <%= render 'shared/feed' %>
     </div>
   </div>
@@ -22,6 +22,7 @@
     </p>
 
     <%= link_to "Login", signin_path, class: "btn btn-large btn-primary" %>
+    <%= link_to "New User", signup_path, class: "btn btn-large btn-primary" %>
   </div>
 
   <%= link_to image_tag("cri.jpeg", alt: "CRI"), 'http://cri.is/' %>

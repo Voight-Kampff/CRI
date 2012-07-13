@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120519194108) do
+ActiveRecord::Schema.define(:version => 20120713094114) do
+
+  create_table "inputs", :force => true do |t|
+    t.string   "name"
+    t.float    "value"
+    t.integer  "user_id"
+    t.date     "period"
+    t.string   "unit"
+    t.boolean  "admin"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "comment"
+  end
+
+  add_index "inputs", ["user_id", "period", "name"], :name => "index_inputs_on_user_id_and_period_and_name"
 
   create_table "microposts", :force => true do |t|
     t.string   "content"

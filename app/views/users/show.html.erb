@@ -10,12 +10,22 @@
   </aside>
   <div class="span8">
     <% if @user.microposts.any? %>
-      <h3>Microposts (<%= @user.microposts.count %>)</h3>
+      <h3>Notes (<%= @user.microposts.count %>)</h3>
     <% end %>
     <ol class="microposts">
       <%= render @microposts %>
     </ol>
 
     <%= will_paginate @microposts %>
+  </div>
+  <div class="span8">
+	    <% if @user.inputs.any? %>
+	      <h3>Inputs (<%= @user.inputs.count %>)</h3>
+	    <% end %>
+	    <ol class="inputs">
+	      <%= render @inputs %>
+	    </ol>
+
+	    <%= will_paginate @inputs %>
   </div>
 </div>

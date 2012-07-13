@@ -1,0 +1,7 @@
+<% @feed_tests = current_user.input_feed.paginate(page: params[:page]) %>
+<% if @feed_tests.any? %>
+  <ol class="microposts">
+    <%= render partial: 'shared/feed_test', collection: @feed_tests %>
+  </ol>
+  <%= will_paginate @feed_tests %>
+<% end %>
