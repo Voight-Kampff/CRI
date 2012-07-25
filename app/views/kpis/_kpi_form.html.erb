@@ -1,0 +1,16 @@
+
+<h2>New KPI</h2>
+<div class="well form-inline">
+	<%= form_for :kpi do |f| %>
+	<%= render 'shared/error_messages', object: @kpi %>
+	<%= f.text_field :name, class: "span3", placeholder: "Name" %>
+	<%= f.text_field :value, class: "span2", placeholder: "Value" %>
+	<%= f.text_field :target, class: "span2", placeholder: "Target" %>
+	<%= f.text_field :unit, class: "span2", placeholder: "Unit" %>
+	<%= f.text_field :period , class: "span2", readonly: true, value: (Date.today<<1).to_formatted_s(:month_and_year) %>
+	<%= f.hidden_field :period , class: "span2", value: (Date.today<<1).beginning_of_month %>
+	<%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %>
+	<%= f.hidden_field :admin , class: "span2", readonly: true, value: "true" %>
+	<%= f.submit "Create", class: "btn btn-medium btn-primary" %>
+	</div>
+<% end %>

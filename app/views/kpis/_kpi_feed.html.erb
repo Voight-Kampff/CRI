@@ -1,0 +1,8 @@
+<h2>My KPIs</h2>
+<% @kpi_items = current_user.kpi_feed.paginate(page: params[:page]) %>
+<% if @kpi_items.any? %>
+  <ol class="microposts">
+    <%= render partial: 'kpis/kpi_item', collection: @kpi_items %>
+  </ol>
+  <%= will_paginate @kpi_items %>
+<% end %>

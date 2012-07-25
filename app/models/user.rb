@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :microposts, dependent: :destroy
   has_many :inputs
+  has_many :kpis
 
   before_save { |user| user.email = user.email.downcase }
   before_save :create_remember_token 
@@ -20,9 +21,13 @@ class User < ActiveRecord::Base
   end
 
   def input_feed
-    Input.where("user_id = ?", id) && Input.where("admin = ?", true)
+    Input.where("user_id =? AND admin = ?", id, true)
   end
-
+  
+  def kpi_feed
+    Kpi.where("user_id =? AND admin = ?", id, true)
+  end
+  
   private
 
     def create_remember_token

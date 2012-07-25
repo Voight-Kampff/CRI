@@ -11,7 +11,6 @@ class StaticPagesController < ApplicationController
     if signed_in?
       @input = current_user.inputs.build
       @users = User.paginate(page: params[:page])
-      @feed_items = current_user.feed.paginate(page: params[:page])
       @feed_tests = current_user.input_feed.paginate(page: params[:page])
     end
   end
@@ -24,4 +23,11 @@ class StaticPagesController < ApplicationController
 
   def contact
   end
+  
+  def kpi
+    if signed_in?
+      @kpi = current_user.kpis.build
+    end
+  end
+    
 end

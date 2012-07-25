@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713094114) do
+ActiveRecord::Schema.define(:version => 20120717113355) do
 
   create_table "inputs", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,21 @@ ActiveRecord::Schema.define(:version => 20120713094114) do
   end
 
   add_index "inputs", ["user_id", "period", "name"], :name => "index_inputs_on_user_id_and_period_and_name"
+
+  create_table "kpis", :force => true do |t|
+    t.string   "value"
+    t.string   "target"
+    t.string   "unit"
+    t.date     "period"
+    t.boolean  "admin"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "comment"
+  end
+
+  add_index "kpis", ["user_id", "period", "name"], :name => "index_kpis_on_user_id_and_period_and_name"
 
   create_table "microposts", :force => true do |t|
     t.string   "content"

@@ -4,9 +4,17 @@ class Input < ActiveRecord::Base
   belongs_to :user
   
   validates :user_id, presence: true
-  validates :name, presence: true,  :uniqueness => {:scope => :admin}
+  validates :name, presence: true
   validates :value, presence: true
-  validates :period, presence: true, :uniqueness => {:scope => :name}
+  validates :period, presence: true
   
    default_scope order: 'inputs.period DESC'
+   
+   def input_range(name)
+     @inputs = Input.where("name = ?", name)
+     @start= @inputs.first.period
+     @end = Inpu
+   end
+     
+     
 end

@@ -1,34 +1,54 @@
 <div class="accordion-group">
-              <div class="accordion-heading">
-				<div style="text-align: right;padding-top:5px;padding-right:5px;border-right: 1px solid $grayMediumLight";> 		  <h5><a><%=feed_test.user.name %></a></h5><h5><% if current_user?(feed_test.user) %><%= link_to "Delete", feed_test, :confirm => 'Are you sure?', :method => :delete%><% end %></div>
-				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%= feed_test.id %>">
-                  <h3><%= feed_test.name %></h3>
-                </a>
-              </div>
-              <div id="<%= feed_test.id %>" class="accordion-body collapse in" style="height: auto; ">
-                <div class="accordion-inner">
-                  <% @dex= Input.where("name =?", feed_test.name) %>
-				<table class="table table-striped table-condensed">
-				<tr><%= form_for @input, {:action => "create"} do |f| %>
+	<div class="accordion-heading">
+		<div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=feed_test.user.name %></a> | <% if current_user?(feed_test.user) %><%= link_to "Delete", feed_test, :confirm => 'Are you sure?', :method => :delete%><% end %></div></h5>
+		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%= feed_test.id %>">
+			<h3><%= feed_test.name %></h3>
+		</a>
+	</div>
+	<div id="<%= feed_test.id %>" class="accordion-body collapse in" style="height: auto; ">
+		<div class="accordion-inner">
+			<% @dex= Input.where("name =?", feed_test.name) %>
+			<table class="table table-striped table-condensed">
+				<tr class="form-inline border:0px">
+					<%= form_for @input, :html => { :class => "myform", :id => "myform"}  do |f| %>
 					<%= f.hidden_field :name, class: "span3", value: @dex.first.name %>
-					<td><%= f.text_field :period , class: "span2", readonly: true, placeholder: (@dex.first.period>>1).to_formatted_s(:month_and_year) %>
-							<%= f.hidden_field :period , class: "span3", value: @dex.first.period>>1 %></td>
+					<%= f.hidden_field :admin, value: false %>
+					<td style="height:0px"><%= f.text_field :period, class: "span2", readonly: true, placeholder: 
+					(@dex.first.period>>1).to_formatted_s(:month_and_year) %>
+					<%= f.hidden_field :period , class: "span3", value: (@dex.first.period>>1).beginning_of_month %></td>
 					<td><%= f.text_field :value, class: "span2", placeholder: "Value" %></td>
-					<td><%= f.text_field :unit, class: "span2", readonly:true, placeholder: "Unit" %><%= f.hidden_field :unit, value: @dex.first.unit %></td>
+					<td><%= f.text_field :unit, class: "span2", readonly:true, placeholder: @dex.first.unit %>
+					<%= f.hidden_field :unit, value: @dex.first.unit %></td>
 					<td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
 					<td><%= f.submit "Add", class: "btn btn-medium btn-small" %></td>
-						<% end %> 
-				<% @dex.count.times do |i|%> 
+					<% end %>
+				</tr>
+					<% @dex.count.times do |i|%> 
 				<tr> 
-					<td> <% @tp= (@dex[i].period)%><%= @tp.to_formatted_s(:month_and_year) %> </td>
-					<td> <%= @dex[i].value %> </td> <td> <%= @dex[i].unit %> </td> 
-					<td><%= @dex[i].comment %> </td> 
+					<td> <% @tp= (@dex[i].period)%>
+					<%= @tp.to_formatted_s(:month_and_year) %> </td>
+					<td> <%= @dex[i].value %> </td> 
+					<td> <%= @dex[i].unit %> </td> 
+					<td> <%= @dex[i].comment %> </td> 
 				</tr> 
 					<% end %> 
-					</table> Description
-                </div>
-              </div>
-            </div>
+				<tr class="form-inline border:0px">
+					<%= form_for @input, {:action => "create"} do |f| %>
+					<%= f.hidden_field :name, class: "span3", value: @dex.last.name %>
+					<%= f.hidden_field :admin, value: false %>
+					<td><%= f.text_field :period , class: "span2", readonly: true, placeholder: (@dex.last.period<<1).to_formatted_s(:month_and_year) %>
+					<%= f.hidden_field :period , class: "span3", value: (@dex.last.period<<1).beginning_of_month %></td>
+					<td><%= f.text_field :value, class: "span2", placeholder: "Value" %></td>
+					<td><%= f.text_field :unit, class: "span2", readonly:true, placeholder: @dex.last.unit %>
+					<%= f.hidden_field :unit, value: @dex.last.unit %></td>
+					<td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+					<td><%= f.submit "Add", class: "btn btn-medium btn-small" %></td>
+					<% end %>
+				</tr>
+			</table> Description
+		</div>
+	</div>
+</div>
 
 
 

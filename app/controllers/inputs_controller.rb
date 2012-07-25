@@ -11,15 +11,10 @@ class InputsController < ApplicationController
     if @input.save
       flash[:success] = "Data Set created!"
       redirect_to :back
-      @feed_tests = [ ]
     else
       render 'static_pages/data'
       @feed_tests = [ ]
     end
-  end
-
-  def new_set
-    @input.create(params[:input])
   end
 
   def destroy

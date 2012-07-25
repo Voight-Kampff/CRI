@@ -1,0 +1,11 @@
+<%= provide(:title, 'KPI') %>
+<% if signed_in? %>
+<h1>Key Performance Indexes</h1>
+<p>
+  To be determined
+  <%= render 'kpis/kpi_form'%>
+  <%= render 'kpis/kpi_feed'%>
+</p>
+<% else %>
+<p> fail </p>
+<% end %>
