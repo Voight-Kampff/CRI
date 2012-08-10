@@ -1,0 +1,58 @@
+<div class="accordion-group">
+	<div class="accordion-heading">
+		<div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=kpi_item.user.name %></a> | <% if current_user?(kpi_item.user) %><%= link_to "Delete", kpi_item, :confirm => 'Are you sure?', :method => :delete%><% end %></div></h5>
+		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%= kpi_item.id %>">
+			<h3><%= kpi_item.name %></h3>
+		</a>
+	</div>
+	<div id="<%= kpi_item.id %>" class="accordion-body collapse in" style="height: auto; ">
+		<div class="accordion-inner">
+			<% @dex= Kpi.where("name =?", kpi_item.name) %>
+			<table class="table table-striped table-condensed">
+				<tr class="form-inline border:0px">
+					<td><button class="span1 btn btn-mini disabled"></button></td>
+					<%= form_for :kpi do |f| %>
+					<%= f.hidden_field :name, class: "span3", value: @dex.first.name %>
+					<td style="height:0px"><%= f.text_field :period, class: "span2", readonly: true, placeholder: 
+					(@dex.first.period>>1).to_formatted_s(:month_and_year) %>
+					<% @@date= (@dex.first.period)>>1 %>
+					<%= f.hidden_field :period , class: "span3", value: @@date %></td>
+					<td><%= f.text_field :value, class: "span2", readonly:true, placeholder: "Value" %>
+					<%= f.hidden_field :value, value: @dex.first.value %></td>
+					<td><%= f.text_field :target, class: "span2", placeholder: "Target" %></td>
+					<td><%= f.text_field :unit, class: "span2", readonly:true, placeholder: @dex.first.unit %>
+					<%= f.hidden_field :unit, value: @dex.first.unit %></td>
+					<td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+					<td><%= f.submit "Add", class: "btn btn-small" %></td>
+					<% end %>
+				</tr>
+					<% @dex.count.times do |i|%> 
+				<tr>
+					<td><div class="span1 btn btn-mini disabled <%=@dex[i].state(@dex[i])%>"><%=@dex[i].perdex(@dex[i]).round(2)%></div></td>
+					<td><%= @dex[i].period.to_formatted_s(:month_and_year) %> </td>
+					<td> <%= @dex[i].calc(@dex[i]) %> </td> 
+					<td> <%= @dex[i].target %> </td>
+					<td> <%= @dex[i].unit %> </td>
+					<td> <%= @dex[i].comment %> </td> 
+				</tr>
+					<% end %> 
+				<tr class="form-inline border:0px">
+					<td><button class="span1 btn btn-mini disabled"></button></td>
+					<%= form_for :kpi do |f| %>
+					<%= f.hidden_field :name, class: "span3", value: @dex.last.name %>
+					<td style="height:0px"><%= f.text_field :period, class: "span2", readonly: true, placeholder: 
+					(@dex.last.period<<1).to_formatted_s(:month_and_year) %>
+					<%= f.hidden_field :period , class: "span3", value: (@dex.last.period)<<1 %></td>
+					<td><%= f.text_field :value, class: "span2", readonly:true, placeholder: "Value" %>
+					<%= f.hidden_field :value, value: @dex.first.value %></td>
+					<td><%= f.text_field :target, class: "span2", placeholder: "Target" %></td>
+					<td><%= f.text_field :unit, class: "span2", readonly:true, placeholder: @dex.last.unit %>
+					<%= f.hidden_field :unit, value: @dex.last.unit %></td>
+					<td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+					<td><%= f.submit "Add", class: "btn btn-small" %></td>
+					<% end %>
+				</tr>
+			</table> Description
+		</div>
+	</div>
+</div>

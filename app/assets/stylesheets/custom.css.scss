@@ -185,6 +185,17 @@ input, textarea, select, .uneditable-input {
   @include box_sizing;
 }
 
+.btn-other {
+  height: 15;
+  margin: 0;
+  font-family: inherit;
+  font-weight: bold;
+  color: inherit;
+  text-rendering: optimizelegibility;
+  font-size: 12px;
+  line-height: 18px;
+}
+
 #error_explanation {
   color: #f00;
   ul {

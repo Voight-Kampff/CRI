@@ -1,0 +1,14 @@
+<% @kpi_items = @user.assigned_kpiset_feed.paginate(page: params[:page]) %>
+<% if @kpi_items.any? %>
+	<ol class="microposts">
+		<div class="accordion" id="accordion2">
+			<% @kpi_items.count.times do |i| %>
+				<% @kpiset = @kpi_items[i] %>
+				 <%=render partial: 'kpis/kpi_item' %>
+			<% end %>
+		</div>
+	</ol>
+	
+<% else %>
+	<p> KPIs that <%=@user.name%> is responsible for updating will appear here </p>
+<% end %>

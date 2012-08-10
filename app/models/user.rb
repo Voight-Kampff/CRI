@@ -2,8 +2,15 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
   has_many :microposts, dependent: :destroy
-  has_many :inputs
-  has_many :kpis
+  has_many :kpis, :through => :kpisets
+  has_many :inputsets, dependent: :destroy
+  has_many :kpisets, dependent: :destroy
+  has_many :inputs, :through => :inputsets
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_sets, through: :relationships, source: :followed
+  has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
+
 
   before_save { |user| user.email = user.email.downcase }
   before_save :create_remember_token 
@@ -20,12 +27,24 @@ class User < ActiveRecord::Base
     Micropost.where("user_id = ?", id)
   end
 
-  def input_feed
-    Input.where("user_id =? AND admin = ?", id, true)
+  def assigned_inputset_feed
+    Inputset.where("user_id = ?", id)
   end
-  
-  def kpi_feed
-    Kpi.where("user_id =? AND admin = ?", id, true)
+
+  def assigned_kpiset_feed
+    Kpiset.where("user_id = ?", id)
+  end
+
+  def following?(kpiset)
+    relationships.find_by_followed_id(kpiset.id)
+  end
+
+  def follow!(kpiset)
+    relationships.create(followed_id: kpiset.id)
+  end
+
+  def unfollow!(kpiset)
+    relationships.find_by_followed_id(kpiset.id).destroy
   end
   
   private

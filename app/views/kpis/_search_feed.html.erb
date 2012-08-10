@@ -1,0 +1,7 @@
+<div>
+	<%= form_tag(:controller => "kpisets", :action =>"search", :method => "get", :class => "well form-search") do %>
+  		
+  		<%= text_field_tag(:q, "",:class => "offset4 input-medium span3", :placeholder => "Search") %>
+  		<%= submit_tag("Search", :class => "btn span2 btn-primary")%>
+	<% end %>
+</div>

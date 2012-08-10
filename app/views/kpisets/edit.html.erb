@@ -1,0 +1,41 @@
+<% provide(:title, 'Edit KPI') %>
+<h1>Edit <%= @kpiset.name%></h1>
+<div class="well form-inline">
+  <%= form_for @kpiset do |f| %>
+    <%= render 'shared/error_messages', object: @kpiset %>
+    <%= f.text_field :name, class: "span3", placeholder: "Name" %>
+    <%= f.text_field :description, class: "span3", placeholder: "Description" %>
+    <%= f.hidden_field :user_id , readonly: true, value: current_user.id %>
+    <div class= "span2"><%= f.select :updatefreq, ['Daily', 'Weekly', 'Biweekly', 'Monthly', 'Bimonthly', 'Quarterly', 'Annual']  %></div>
+    <%= f.submit "Save Changes", class: " span2 btn btn-medium btn-primary" %>
+  <% end %>
+</div>
+<% if @kpiset.kpis.any? %>
+  <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=@kpiset.user.name%></a></h5></div>
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  <h3><%= @kpiset.name %></h3> <h5> <%=@kpiset.updatefreq%></h5>
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body in collapse" style="height: auto; ">
+                <div class="accordion-inner">
+                  <% @dex=@kpiset.kpis %>
+                  <table class="table table-stripped table-condensed">
+                    <tr class="form-inline">
+                    <% @dex.count.times do |i| %>
+                       <td><btn class="span1 btn btn-mini  <%=@dex[i].state(@dex[i])%>"><%=@dex[i].perdex(@dex[i]).round(0)%></btn></td>
+                        <td> <%= (@dex[i].showdate(@dex[i],0)) %></td>
+                        <td> <%= @dex[i].calc(@dex[i]) %> </td>
+                        <td> <%= @dex[i].target %> </td>
+                        <td> <%= @dex[i].unit%> </td>
+                        <td> <%= @dex[i].comment %></td>
+                    </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+  </div>
+<% end %>

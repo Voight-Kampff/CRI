@@ -1,0 +1,9 @@
+<% unless current_user?(@user) %>
+  <div id="follow_form_<%=@kpiset.id%>">
+    <% if current_user.following?(@kpiset) %>
+      <%= render 'shared/unfollow' %>
+    <% else %>
+      <%= render 'shared/follow' %>
+    <% end %>
+  </div>
+<% end %>

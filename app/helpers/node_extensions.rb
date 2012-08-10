@@ -31,9 +31,18 @@ module Sexp
     def to_array
       #item_period=  (Date.today<<1).beginning_of_month
       #@item_period= Praser.foo
-      @item_period= @@date
-      @input=(Input.where( "name = ? AND period = ?", self.text_value, (@item_period).beginning_of_month))
-      return @input[0].value
+        @item_period= @@date
+        @inputset=Inputset.where( "name = ?", self.text_value)
+        if @inputset == []
+          return "Not Available"
+        else
+        @input=@inputset[0].inputs.where("period = ?", @item_period)
+          if @input == []
+            return "Not Available"
+          else 
+            return @input[0].value
+          end
+      end
     end
   end
   

@@ -1,25 +1,44 @@
 SampleApp::Application.routes.draw do
+
   get "microposts/create"
 
+    
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
 
-  
-  resources :users
+  resources :kpisets do
+    member do
+      get :following, :followers, :search
+    end
+  end
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
-  resources :inputs, only: [:create, :destroy]
-  resources :kpi, only: [:create]
+  resources :relationships, only: [:create, :destroy]
+  resources :inputs, only: [:create, :destroy, :edit, :update]
+  resources :kpis, only: [:create, :edit]
+  resources :inputsets, only: [:create, :destroy, :search, :edit, :update, :search]
+  
   
   root to: 'static_pages#home'
+
+  
 
   match '/signup',   to: 'users#new'
   match '/signin',   to: 'sessions#new'
   match '/signout',  to: 'sessions#destroy', via: :delete
+  match '/searchinputs',   to: 'inputsets#search'
+  match '/searchkpis',     to: 'kpisets#search'
 
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
   match '/contact', to: 'static_pages#contact'
   match '/data',    to: 'static_pages#data'
   match '/kpi',     to: 'static_pages#kpi'
+  
   
 
   # The priority is based upon order of creation:

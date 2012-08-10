@@ -1,6 +1,6 @@
 find_executable: checking for pg_config... -------------------- yes
 
-/Users/Voight-Kampff/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/mkmf.rb:1171: warning: Insecure world writable dir /usr/local/bin in PATH, mode 040777
+/Users/Voight-Kampff/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/mkmf.rb:1171: warning: Insecure world writable dir /usr/local in PATH, mode 040777
 --------------------
 
 find_header: checking for libpq-fe.h... -------------------- yes

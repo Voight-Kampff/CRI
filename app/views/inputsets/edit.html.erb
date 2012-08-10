@@ -1,0 +1,60 @@
+<% provide(:title, 'Edit Data') %>
+<h1>Edit <%= @inputset.name%></h1>
+<div class="well form-inline">
+  <%= form_for @inputset do |f| %>
+    <%= render 'shared/error_messages', object: @inputset %>
+    <%= f.text_field :name, class: "span3", placeholder: "Name" %>
+    <%= f.text_field :description, class: "span3", placeholder: "Description" %>
+    <%= f.hidden_field :user_id , readonly: true, value: current_user.id %>
+    <div class= "span2"><%= f.select :updatefreq, ['Daily', 'Weekly', 'Biweekly', 'Monthly', 'Bimonthly', 'Quarterly', 'Annual']  %></div>
+    <%= f.submit "Save Changes", class: " span2 btn btn-medium btn-primary" %>
+  <% end %>
+  <strong>Warning:</strong> changing this set's name will break any KPIs that use data from this set
+</div>
+<% if @inputset.inputs.any? %>
+  <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=@inputset.user.name%></a></h5></div>
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  <h3><%= @inputset.name %></h3> <h5> <%=@inputset.updatefreq%></h5>
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body in collapse" style="height: auto; ">
+                <div class="accordion-inner">
+                  <% @dex=@inputset.inputs %>
+                  <table class="table table-stripped table-condensed">
+                    <% @dex.count.times do |i| %>
+                    <tr class="form-inline">
+                      
+                        <td class="span3"><%=  @dex[i].showdate(@dex[i],0) %></td>
+                        <%= form_for @dex[i], :url => { :action => "update" } do |f| %>
+                        <%= render 'shared/error_messages', object: @dex[i] %>
+                        <%= f.hidden_field :period , readonly: false, value: @dex[i].period%>
+                        <%= f.hidden_field :inputset_id , readonly: false, value: @dex[i].inputset_id%>
+                        <%= f.hidden_field :user_id , readonly: false, value: @dex[i].user_id %>
+                        <td><%= f.text_field :value, class: "span2", placeholder: "Value" %></td>
+                        <td><%= f.text_field :unit, class: "span1", placeholder: "Unit" %></td>
+                        <td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+                        <td><%= f.submit "Edit", class: "btn btn-small" %></td>
+                      <% end %>
+                    </tr>
+                    <% end %>
+                    <tr>
+                      <% @input=@inputset.inputs.first %>
+                      <%= form_for (@input) do |f| %>
+                      <%= f.hidden_field :period , readonly: true, value: @input.period%>
+                      <%= f.hidden_field :inputset_id , readonly: true, value: @input.inputset_id%>
+                      <%= f.hidden_field :user_id , readonly: true, value: @input.user_id %>
+                      <td><%= f.text_field :value, class: "span2", placeholder: "Value" %></td>
+                      <td><%= f.text_field :unit, class: "span1", placeholder: "Unit" %></td>
+                      <td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+                      <td><%= f.submit "Save Changes", class: "btn btn-small" %></td>
+                      <% end %>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+  </div>
+<% end %>

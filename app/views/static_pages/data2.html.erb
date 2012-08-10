@@ -1,0 +1,10 @@
+<%= provide(:title, 'Data') %>
+
+<% if signed_in? %>
+<h1>Data</h1>
+<%= render 'shared/input_form' %>
+<%= render 'inputs/index'%>
+
+<% else %>
+<p> fail </p>
+<% end %>

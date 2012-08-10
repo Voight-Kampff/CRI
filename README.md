@@ -1,3 +1,2 @@
-# Ruby on Rails Tutorial: sample app
+# Ruby on Rails: cri dashboard
 
-This is the sample application for the [Ruby on Rails Tutorial](http://railstutorial.org/) by [Michael Hartl](http://michaelhartl.com/).

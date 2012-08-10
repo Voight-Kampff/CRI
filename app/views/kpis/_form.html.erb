@@ -1,0 +1,11 @@
+<% @kpiset= current_user.kpisets.new %>
+<h2>New KPI Set</h2>
+<div class="well form-inline">
+<%= form_for @kpiset do |f| %>
+	<%= render 'shared/error_messages', object: @kpiset %>
+	<%= f.text_field :name, class: "span3", placeholder: "Name" %>
+	<%= f.text_field :description, class: "span3", placeholder: "Description" %>
+	<div class= "span2"><%= f.select :updatefreq, ['Daily', 'Weekly', 'Biweekly', 'Monthly', 'Bimonthly', 'Quarterly', 'Annual']  %></div>
+	<%= f.submit "Create", class: " span2 btn btn-medium btn-primary" %>
+	</div> 
+<% end %>

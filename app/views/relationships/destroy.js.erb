@@ -1,0 +1,2 @@
+$("#follow_form_<%=@kpiset.id%>").html("<%= escape_javascript(render('shared/follow')) %>")
+$("#followers").html('<%= @kpiset.followers.count %>')

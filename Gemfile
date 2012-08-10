@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'http://gems.github.com'
 
 gem 'rails', '3.2.3'
 gem 'jquery-rails', '2.0.0'
@@ -11,6 +12,7 @@ gem 'formtastic-bootstrap'
 gem 'formtastic', " ~> 2.1.1"
 gem 'polyglot'
 gem 'treetop'
+gem 'gchart'
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'

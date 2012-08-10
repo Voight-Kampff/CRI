@@ -1,6 +1,10 @@
+<% if signed_in? %>
 <%= provide(:title, 'Contact') %>
 <h1>Contact</h1>
 <p>
-  To be determined
-  <a href="http:/cri.is/contact">contact page</a>.
+  In case of problems
+  <%= mail_to "valfells@gmail.com", "email me", :subject => "CRI Dashboard" %>
 </p>
+<% else %>
+<p> Please sign in </p>
+<%end%>

@@ -2,16 +2,17 @@ class StaticPagesController < ApplicationController
   def home
     if signed_in?
       @micropost = current_user.microposts.build
-      @input = current_user.inputs.build
-      @feed_items = current_user.feed.paginate(page: params[:page])
+      @feed_items = current_user.assigned_inputset_feed.paginate(page: params[:page])
     end
   end
   
   def data
     if signed_in?
-      @input = current_user.inputs.build
-      @users = User.paginate(page: params[:page])
-      @feed_tests = current_user.input_feed.paginate(page: params[:page])
+      @input = Input.new
+      @inputset = current_user.inputsets.build
+      
+      #@users = User.paginate(page: params[:page])
+      #@intput_item = current_user.input_feed.paginate(page: params[:page])
     end
   end
   
@@ -26,7 +27,8 @@ class StaticPagesController < ApplicationController
   
   def kpi
     if signed_in?
-      @kpi = current_user.kpis.build
+      @kpi = Kpi.new
+      @kpiset = current_user.kpisets.build
     end
   end
     

@@ -1,0 +1,14 @@
+<% @kpi_items= Kpiset.all %>
+<% if @kpi_items.any? %>
+	<ol class="microposts">
+		<div class="accordion" id="accordion2">
+			<% @kpi_items.count.times do |i| %>
+				<% @kpiset = @kpi_items[i] %>
+				<%=render partial: 'kpis/kpi_item_all' %>
+			<% end %>
+		</div>
+	</ol>
+	
+<% else %>
+	<p> Data Sets that you are responsible for updating will appear here </p>
+<% end %>

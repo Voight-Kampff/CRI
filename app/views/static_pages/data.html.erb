@@ -2,8 +2,25 @@
 
 <% if signed_in? %>
 <h1>Data</h1>
-<%= render 'shared/input_form' %>
-<%= render 'inputs/index'%>
+
+<%= render 'inputs/form' %>
+
+<ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#mysets" data-toggle="tab">My Data</a></li>
+            <li class=""><a href="#all" data-toggle="tab">All</a></li>
+            <li class=""><a href="#search" data-toggle="tab">Search</a></li>
+          </ul>
+		<div id="myTabContent" class="tab-content">
+		            <div class="tab-pane fade active in" id="mysets">
+						<%= render 'inputs/my_set_feed'%>
+		            </div>
+		            <div class="tab-pane fade" id="all">
+		            	<%= render 'inputs/all_feed' %>
+		            </div>
+		            <div class="tab-pane fade" id="search">
+		            	<%= render 'inputs/search_feed' %>
+		            </div>
+		          </div>
 
 <% else %>
 <p> fail </p>

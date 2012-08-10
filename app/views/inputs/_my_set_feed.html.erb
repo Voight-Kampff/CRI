@@ -1,0 +1,14 @@
+<% @input_items = current_user.assigned_inputset_feed.paginate(page: params[:page]) %>
+<% if @input_items.any? %>
+	<ol class="microposts">
+		<div class="accordion" id="accordion2">
+			<% @input_items.count.times do |i| %>
+				<% @inputset = @input_items[i] %>
+				<%=render partial: 'inputs/input_item' %>
+			<% end %>
+		</div>
+	</ol>
+	
+<% else %>
+	<p> Data Sets that you are responsible for updating will appear here </p>
+<% end %>

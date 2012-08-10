@@ -1,0 +1,120 @@
+  <div class="accordion-group">
+    <div id="<%=@kpiset.id%>modaltracked" class="modal hide fade" style="display: none; ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Chart</h3>
+      </div>
+      <div class="modal-body">
+        <% if @kpiset.kpis.any? %>
+          <% data=@kpiset.kpis.map { |val| p val.perdex(val).round(0)} %>
+          <% if  data.include?("N/A") %>
+            <p>Some Data is missing. Make sure all the data used in this KPI is available!</p>
+          <% else %>
+            <% chart=GChart.bar do |g| %>
+              <% g.data = [data] %>
+              <% g.orientation = :horizontal %>
+              <% g.width = 540 %>
+              <% g.height = 360 %>
+                    
+              <% g.axis :left do |a| %>
+                <% dates=@kpiset.kpis.map { |val| p val.showdate(val,0) } %>
+                <% a.labels = dates.reverse %>
+              <% end %>
+
+              <% g.axis :right do |a| %>
+                <% a.labels = data.reverse %>
+              <% end %>
+
+            <% end %>
+            <% url=chart.to_url %>
+            <image src="<%=url%>"></image>
+          <% end %>
+        <% else %>
+          <p> You can't render a chart if you have no data!</p>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+                <div class="accordion-heading">
+                  <div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=@kpiset.user.name %></a> | <a data-toggle="modal" href="#<%=@kpiset.id%>modaltracked">Chart</a> | <% if current_user?(@kpiset.user) %><%= link_to "Delete", @kpiset, :confirm => 'Are you sure?', :method => :delete%><%end%></h5>
+                  </div>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%=@kpiset.id%>all">
+                    <h3><% if @kpiset.kpis.any? %>
+                      <% @dex=@kpiset.kpis %>
+                      <btn class="btn btn-mini  <%=@dex.first.state(@dex.first)%>"> <i class="<%=@dex.first.icon(@dex.first)%>"></i></btn>
+                    <%end%><%= @kpiset.name %></h3> <h5> <%=@kpiset.updatefreq%></h5>
+                  </a>
+                </div>
+                <div id="<%=@kpiset.id%>all" class="accordion-body in collapse" style="height: auto; ">
+                  <div class="accordion-inner">
+                    <% if @kpiset.kpis.any? %>
+                      <% @dex=@kpiset.kpis %>
+                      <table class="table table-stripped table-condensed">
+                         <tr class="form-inline">
+                          <td class: "span1"><%= render 'shared/follow_form' if signed_in? %></td>
+                          <%= form_for @kpi do |f| %>
+                            <td><%= f.text_field :period, class: "span3", readonly: true, placeholder: (@dex.first).showdate((@dex.first),1) %>
+                            <%= f.hidden_field :period , readonly: true, value: (@dex.first).date((@dex.first),1) %></td>
+                            <% date = (@dex.first).date((@dex.first),1) %>
+                            <%= f.hidden_field :kpiset_id , readonly: true, value: @kpiset.id %>
+                            <%= f.hidden_field :user_id , readonly: true, value: current_user.id %>
+                            <td><%= f.text_field :value, class: "span2", readonly: true, placeholder: @dex.first.value %></td>
+                            <%= f.hidden_field :value , readonly: true, value: @dex.first.value %>
+                            <td><%= f.text_field :target, class: "span2", placeholder: "Target" %></td>
+                            <td><%= f.text_field :unit, class: "span1", readonly: true, placeholder: @dex.first.unit %></td>
+                            <%= f.hidden_field :unit, readonly: true, value: @dex.first.unit %>
+                            <td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+                            <td><%= f.submit "Add", class: "btn btn-medium btn-small" %></td>
+                          <% end %>
+                        </tr>
+                        <% @dex.count.times do |i| %>
+                        <tr>
+                          <td><btn class="span1 btn btn-mini  <%=@dex[i].state(@dex[i])%>"><%=@dex[i].perdex(@dex[i]).round(0)%></btn></td>
+                          <td><%= (@dex[i].showdate(@dex[i],0)) %></td>
+                          <td> <%= @dex[i].calc(@dex[i]) %> </td>
+                          <td> <%= @dex[i].target %> </td>
+                          <td> <%= @dex[i].unit%> </td>
+                          <td> <%= @dex[i].comment %></td>
+                        </tr>
+                        <% end %>
+                        <tr class="form-inline">
+                          <%= form_for @kpi do |f| %>
+                            <td class: "span1"></td>
+                            <td><%= f.text_field :period, class: "span3", readonly: true, placeholder: (@dex.last).showdate((@dex.last),-1) %>
+                            <%= f.hidden_field :period , readonly: true, value: (@dex.last).date((@dex.last),-1) %></td>
+                            <%= f.hidden_field :kpiset_id , readonly: true, value: @kpiset.id %>
+                            <td><%= f.text_field :value, class: "span2", readonly: true, placeholder: @dex.last.value %></td>
+                             <%= f.hidden_field :value, readonly: true, value: @dex.last.value %>
+                            <td><%= f.text_field :target, class: "span2", placeholder: "Target" %></td>
+                            <td><%= f.text_field :unit, class: "span1", readonly: true, placeholder: @dex.last.unit %></td>
+                             <%= f.hidden_field :unit, readonly: true, value: @dex.last.unit %>
+                            <td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+                            <td><%= f.submit "Add", class: "btn btn-medium btn-small" %></td>
+                          <% end %>
+                        </tr>
+                      </table>
+                      <h5><%= @dex.first.value %></h5>
+                      <%= @kpiset.description %>
+                    <% else %>
+                      <table class="table table-striped table-condensed">
+                        <tr class="form-inline">
+                          <%= form_for @kpi do |f| %>
+                            <td class: "span1"></td>
+                            <td><%= f.text_field :period, class: "span3", readonly: true, placeholder: @kpiset.newdate(@kpiset, 0) %>
+                            <%= f.hidden_field :period , readonly: true, value: @kpiset.newdate(@kpiset, -1) %></td>
+                            <%= f.hidden_field :kpiset_id , readonly: true, value: @kpiset.id %>
+                            <%= f.hidden_field :user_id , readonly: true, value: current_user.id %>
+                            <td><%= f.text_field :value, class: "span2", placeholder: "Value" %></td>
+                            <td><%= f.text_field :target, class: "span2", placeholder: "Target" %></td>
+                            <td><%= f.text_field :unit, class: "span1", placeholder: "Unit" %></td>
+                            <td><%= f.text_field :comment, class: "span3", placeholder: "Add Comment" %></td>
+                            <td><%= f.submit "Add", class: "btn btn-medium btn-small" %></td>
+                          <% end %>
+                        </tr>
+                      </table>
+                      <%= @kpiset.description %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
