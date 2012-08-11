@@ -13,6 +13,7 @@ gem 'formtastic', " ~> 2.1.1"
 gem 'polyglot'
 gem 'treetop'
 gem 'gchart'
+gem 'mongrel', '>= 1.2.0.pre2'
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'
