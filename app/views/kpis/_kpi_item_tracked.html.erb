@@ -37,7 +37,7 @@
       </div>
     </div>
                 <div class="accordion-heading">
-                  <div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=@kpiset.user.name %></a> | <a data-toggle="modal" href="#<%=@kpiset.id%>modalall">Chart</a> | <% if current_user?(@kpiset.user) %><%= link_to "Delete", @kpiset, :confirm => 'Are you sure?', :method => :delete%><%end%></h5>
+                  <div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=@kpiset.user.name %></a> | <a data-toggle="modal" href="#<%=@kpiset.id%>modalall">Chart</a> | <% if current_user?(@kpiset.user) %><%= link_to "Edit", edit_kpiset_path(@kpiset)%> | <%= link_to "Delete", @kpiset, :confirm => 'Are you sure?', :method => :delete%><%end%></h5>
                   </div>
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%=@kpiset.id%>all">
                     <h3><% if @kpiset.kpis.any? %>
@@ -52,7 +52,7 @@
                       <% @dex=@kpiset.kpis %>
                       <table class="table table-stripped table-condensed">
                          <tr class="form-inline">
-                          <td class: "span1"></td>
+                          <td class: "span1"><%= render 'shared/follow_form' if signed_in? unless current_user?(@kpiset.user)%></td>
                           <%= form_for @kpi do |f| %>                            <td><%= f.text_field :period, class: "span3", readonly: true, placeholder: (@dex.first).showdate((@dex.first),1) %>
                             <%= f.hidden_field :period , readonly: true, value: (@dex.first).date((@dex.first),1) %></td>
                             <% date = (@dex.first).date((@dex.first),1) %>

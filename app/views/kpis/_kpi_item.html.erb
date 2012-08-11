@@ -54,7 +54,7 @@
                       <table class="table table-stripped table-condensed">
                          <tr class="form-inline">
                           <%= form_for @kpi do |f| %>
-                            <td class: "span1"></td>
+                            <td class: "span1"><%= render 'shared/follow_form' if signed_in? unless current_user?(@kpiset.user)%></td>
                             <td><%= f.text_field :period, class: "span3", readonly: true, placeholder: (@dex.first).showdate((@dex.first),1) %>
                             <%= f.hidden_field :period , readonly: true, value: (@dex.first).date((@dex.first),1) %></td>
                             <% date = (@dex.first).date((@dex.first),1) %>

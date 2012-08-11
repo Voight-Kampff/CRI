@@ -34,7 +34,7 @@
       </div>
     </div>
                 <div class="accordion-heading">
-                  <div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=@inputset.user.name%></a> | <a data-toggle="modal" href="#<%=@inputset.id%>modalall">Chart</a> | <% if current_user?(@inputset.user) %><%= link_to "Delete", @inputset, :confirm => 'Are you sure?', :method => :delete%><%end%></h5>
+                  <div style="text-align: right;padding-top:5px;padding-right:5px"><h5><a><%=@inputset.user.name%></a> | <a data-toggle="modal" href="#<%=@inputset.id%>modalall">Chart</a> | <% if current_user?(@inputset.user) %><%= link_to "Edit", edit_inputset_path(@inputset)%> | <%= link_to "Delete", @inputset, :confirm => 'Are you sure?', :method => :delete%><%end%></h5>
                   </div>
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%=@inputset.id%>all">
                     <h3><%= @inputset.name %></h3> <h5> <%=@inputset.updatefreq%></h5>
